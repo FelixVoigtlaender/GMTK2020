@@ -9,7 +9,7 @@ public class TileManager : MonoBehaviour
 	[SerializeField] int xSize = 200;
 	[SerializeField] int ySize = 200;
 	[SerializeField] Image imageForMap = default;
-	[SerializeField] Gradient gradient=default;
+	[SerializeField] Gradient gradient = default;
 
 	public Texture2D map { get; private set; }
 	public Tile[,] tiles { get; private set; }
@@ -27,7 +27,7 @@ public class TileManager : MonoBehaviour
 		imageForMap.material.mainTexture = map;
 		tiles = new Tile[xSize, ySize];
 
-		RectTransform transform =imageForMap.transform.parent.GetComponent<RectTransform>();
+		RectTransform transform = imageForMap.transform.parent.GetComponent<RectTransform>();
 		rectTransformWidth = transform.sizeDelta.x;
 		rectTransformHeight = transform.sizeDelta.y;
 
@@ -51,15 +51,7 @@ public class TileManager : MonoBehaviour
 				//Evaluate Gradient based on firevalue of the Tile
 				Tile tile = tiles[x, y];
 				Color color = Color.white;
-				if (tile.isHouse)
-				{
-					color = Color.blue;
-				}
-				else
-				{
-					color = gradient.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, 255, tile.fireValue)));
-				}
-
+				color = gradient.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, 255, tile.fireValue)));
 				map.SetPixel(x, y, color);
 			}
 		}

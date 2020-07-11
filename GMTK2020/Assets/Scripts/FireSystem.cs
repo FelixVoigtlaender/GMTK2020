@@ -21,21 +21,19 @@ public class FireSystem : MonoBehaviour
 
 	void UpdateFire()
 	{
-		if (!CalculateNewFirevalues())//returns false, if no flames left
-		{
-			print("NO FLAMES LEFT! GAME IS OVER");
-		}
-		TileManager.singleton.UpdateImage();
+
+		CalculateNewFirevalues();
 		print("updated Fires");
+		TileManager.singleton.UpdateImage();
 	}
 
 
-	private bool CalculateNewFirevalues()
+	private void CalculateNewFirevalues()
 	{
 		//Cache current winddirection
 		int windDirX = WindSystem.singleton.xDir;
 		int windDirY = WindSystem.singleton.yDir;
-		bool fireIsActive = false;
+		bool isGameOver = GameManager.singleton.gameIsOver;
 		for (int x = 0; x < xSize; x++)
 		{
 			for (int y = 0; y < TileManager.singleton.tiles.GetLength(1); y++)
@@ -43,7 +41,11 @@ public class FireSystem : MonoBehaviour
 				Tile tile = TileManager.singleton.tiles[x, y];
 				if (tile.fireValue > 0)
 				{
-					fireIsActive = true;
+					if (isGameOver)
+					{
+						tile.changeFireValue(-fireGrowthSpeed*3);
+						continue;
+					}
 					//Dont calculate wind, if its a new fire (fire that started this gameTick)
 					if (tile.fireValue > 70 && tile.fireValue < 240)
 					{
@@ -67,7 +69,6 @@ public class FireSystem : MonoBehaviour
 								TileManager.singleton.tiles[x + 1, y].changeFireValue(Random.Range(1, 15));
 								TileManager.singleton.tiles[x - 1, y].changeFireValue(Random.Range(1, 15));
 							}
-
 						}
 					}
 					//Increment firevalue in this cell
@@ -75,14 +76,12 @@ public class FireSystem : MonoBehaviour
 				}
 			}
 		}
-		return fireIsActive;
 	}
 
 	public bool ExtinguishTiles(Vector3 worldPos, float radius, float amount)
 	{
 		Vector2Int center = TileManager.singleton.World2ImagePos(worldPos);
 		int imageRadius = Mathf.RoundToInt(TileManager.singleton.WorldDist2ImageDist(radius));
-		int i = 0;
 		bool didExtinguish = false;
 		for (int x = center.x - imageRadius; x < center.x + imageRadius; x++)
 		{
@@ -91,16 +90,15 @@ public class FireSystem : MonoBehaviour
 				if (x > 0 && x < xSize - 1 && y > 0 && y < ySize - 1)
 				{
 					float dist = Vector2.SqrMagnitude(center - new Vector2(x, y));
-					if (dist < imageRadius*imageRadius)
+					if (dist < imageRadius * imageRadius)
 					{
 						Tile tile = TileManager.singleton.tiles[x, y];
-						if (tile.fireValue > 0 && tile.fireValue<250)
+						if (tile.fireValue > 0 && tile.fireValue < 250)
 						{
 							tile.changeFireValue(-(int)amount);
 							didExtinguish = true;
 						}
 					}
-					i++;
 				}
 			}
 		}

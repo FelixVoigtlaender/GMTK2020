@@ -4,8 +4,8 @@ using System.Collections;
 public class WindSystem : MonoBehaviour
 {
 	public static WindSystem singleton;
-	public int xDir  = 0;
-	public int yDir = 1;
+	public int xDir  = 2;
+	public int yDir = -2;
 
 	int maxChangeSquared = 9;
 	WindArrow arrow;
