@@ -25,7 +25,8 @@ public class UnitManager : MonoBehaviour
     {
         Vector2 start = drag.GetStart();
         Vector2 end = drag.GetEnd();
-
+		if ((start - end).magnitude < .2f)
+			return;
         DrawBox(start, end);
         selectedUnits = CheckBoxForUnits(start, end);
     }

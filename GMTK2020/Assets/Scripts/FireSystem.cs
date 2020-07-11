@@ -94,7 +94,7 @@ public class FireSystem : MonoBehaviour
 					if (dist < imageRadius)
 					{
 						Tile tile = TileManager.singleton.tiles[x, y];
-						if (tile.fireValue > 0)
+						if (tile.fireValue > 0 && tile.fireValue<250)
 						{
 							tile.changeFireValue(-(int)amount);
 							didExtinguish = true;

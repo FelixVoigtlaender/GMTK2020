@@ -25,31 +25,13 @@ public class Unit : Tank
             goalTarget.position = goalPosition;
     }
 
-    public bool Extinguishable()
-    {
-        Tile[] extinguishableTiles = FireSystem.singleton.GetExtinguishableTiles(transform.position, radius);
-        foreach (var item in extinguishableTiles)
-        {
-            if (item == null)
-                continue;
-            if (item.fireValue > 0)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void ExtinguishArea(float thrust)
     {
-        Tile[] extinguishableTiles = FireSystem.singleton.GetExtinguishableTiles(transform.position, radius);
-        foreach (var tile in extinguishableTiles)
-        {
-            if (tile.fireValue > 0 && tile.fireValue < 250)
-            {
-                tile.changeFireValue(-(int)(thrust * 100));
-            }
-        }
+        if(!FireSystem.singleton.ExtinguishTiles(transform.position, radius, thrust))
+		{
+			AddVolume(thrust);
+		}
     }
 
 
