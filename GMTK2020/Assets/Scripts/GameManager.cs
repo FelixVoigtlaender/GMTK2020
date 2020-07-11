@@ -25,4 +25,16 @@ public class GameManager : MonoBehaviour
 		onNewTick();
 		tick++;
 	}
+
+	private void Update()
+	{
+		if (Input.GetKey(KeyCode.Space))
+		{
+			Time.timeScale = 5;
+		}
+		else
+		{
+			Time.timeScale = 1;
+		}
+	}
 }

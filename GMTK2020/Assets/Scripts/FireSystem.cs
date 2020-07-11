@@ -11,7 +11,7 @@ public class FireSystem : MonoBehaviour
 	[SerializeField] int mapSideLength = 50;
 	[SerializeField] Tile[] fireSeedpoints;
 	[SerializeField] Gradient gradient;
-	[SerializeField] int fireGrowthSpeed = 5;
+	[SerializeField] int fireGrowthSpeed = 10;
 
 	Tile[,] tiles;
 	Texture2D map;
@@ -29,6 +29,7 @@ public class FireSystem : MonoBehaviour
 		foreach (Tile fireSeed in fireSeedpoints)
 		{
 			tiles[fireSeed.x, fireSeed.y] = fireSeed;
+			tiles[fireSeed.x, fireSeed.y].changeFireValue(fireGrowthSpeed);
 		}
 
 		//Fill rest of the map excluding already set seedpoints
@@ -69,7 +70,7 @@ public class FireSystem : MonoBehaviour
 				if (tile.fireValue > 0)
 				{
 					//Dont calculate wind, if its a new fire (fire that started this gameTick)
-					if (tile.fireValue > 1 && tile.fireValue < 240)
+					if (tile.fireValue > 70 && tile.fireValue < 240)
 					{
 						int windX = x + windDirX;
 						int windY = y + windDirY;
@@ -77,11 +78,23 @@ public class FireSystem : MonoBehaviour
 							windY > 0 && windY < mapSideLength)
 						{
 							//Increment firevalue in cell affected by wind
-							tiles[windX, windY].fireValue += 1;
+							tiles[windX, windY].changeFireValue(1);
+						}
+						if (x > 0 && x < mapSideLength-1 &&
+							y > 0 && y < mapSideLength-1)
+						{
+							//start fires in adjacent cells
+						tiles[x + 1, y + 1].changeFireValue(1);
+						tiles[x + 1, y - 1].changeFireValue(1);
+						tiles[x - 1, y + 1].changeFireValue(1);
+						tiles[x - 1, y - 1].changeFireValue(1);
 						}
 					}
+
+					
+
 					//Increment firevalue in this cell
-					tile.fireValue += fireGrowthSpeed;
+					tile.changeFireValue(fireGrowthSpeed);
 				}
 			}
 		}
@@ -94,7 +107,7 @@ public class FireSystem : MonoBehaviour
 			for (int y = 0; y < map.height; y++)
 			{
 				//Evaluate Gradient based on firevalue of the Tile
-				Color color = gradient.Evaluate(tiles[x, y].fireValue / 255f);
+				Color color = gradient.Evaluate(Mathf.Lerp(0,1,Mathf.InverseLerp(-3,255, tiles[x, y].fireValue)));
 				map.SetPixel(x, y, color);
 			}
 		}
