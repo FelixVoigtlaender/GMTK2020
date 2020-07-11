@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 115661645108107255}
   - component: {fileID: 115661645108107254}
   - component: {fileID: 115661645108107252}
-  - component: {fileID: 380013873}
-  - component: {fileID: 380013872}
+  - component: {fileID: 6328847235801872539}
+  - component: {fileID: 6347631426918132475}
   m_Layer: 0
   m_Name: Building
   m_TagString: Untagged
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2343487e862481c4a808e78072d8fcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!198 &380013873
+--- !u!198 &6328847235801872539
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4756,7 +4756,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &380013872
+--- !u!199 &6347631426918132475
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
