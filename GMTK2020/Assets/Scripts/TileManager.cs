@@ -57,7 +57,7 @@ public class TileManager : MonoBehaviour
 				}
 				else
 				{
-					color = gradient.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(-3, 255, tile.fireValue)));
+					color = gradient.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, 255, tile.fireValue)));
 				}
 
 				map.SetPixel(x, y, color);

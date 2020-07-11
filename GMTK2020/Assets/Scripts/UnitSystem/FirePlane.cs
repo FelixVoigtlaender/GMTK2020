@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(ParticleSystem))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class FirePlane : Unit
 {
@@ -15,9 +16,12 @@ public class FirePlane : Unit
 
     public event Action OnGoalReached;
 
+    ParticleSystem particles;
+
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
+        particles = GetComponent<ParticleSystem>();
     }
 
     public void Update()
@@ -25,11 +29,14 @@ public class FirePlane : Unit
         Vector2 position = rigid.position;
         Vector2 dif = goalPosition - position;
 
-        if (dif.magnitude < 1f)
+        if (dif.magnitude < radius)
         {
             OnGoalReached?.Invoke();
-            Extinguish();
+            StartExtinguish();
         }
+
+        if (particles.isPlaying)
+            Extinguish();
 
         Vector2 forward = transform.TransformDirection(Vector2.up);
 
@@ -46,22 +53,36 @@ public class FirePlane : Unit
 
     public void Extinguish()
     {
-        float thrusting = GetVolume(tankThrust * Time.deltaTime);
-
-        if (tankVolume <= 0)
+        if (tankVolume > 0)
         {
-            //Search for tank
+            float thrust = GetVolume(tankThrust * Time.deltaTime);
+            ExtinguishArea(thrust);
+        }
+        else
+        {
+            particles.Stop();
             GoToClosestRefillStation();
         }
+
     }
+
+    public void StartExtinguish()
+    {
+
+        if (!Extinguishable())
+        {
+            SetGoalPosition(goalPosition + goalDir, Vector2.zero);
+            return;
+        }
+
+        particles.Play();
+        SetGoalPosition(goalPosition + goalDir, goalDir);
+    }
+
 
     public void GoToClosestRefillStation()
     {
-        TankFillStation closestFill = FindClosestRefill();
-        if (!closestFill)
-            return;
-
-        SetGoalPosition(closestFill.transform.position, Vector2.up);
+        SetGoalPosition(Vector2.down * 10, Vector2.up);
 
         OnGoalReached += Refill;
     }
@@ -69,21 +90,7 @@ public class FirePlane : Unit
     public void Refill()
     {
         OnGoalReached -= Refill;
-        TankFillStation closestFill = FindClosestRefill();
-        if (!closestFill)
-            return;
-        float distance = (closestFill.transform.position - transform.position).magnitude;
-        if (distance < closestFill.range)
-        {
-
-            print("Refilling");
-            float fill = closestFill.GetVolume(maxTankVolume - tankVolume);
-            AddVolume(fill);
-            SetGoalPosition(lastGoalPosition, Vector2.up);
-        }
-        else
-        {
-            GoToClosestRefillStation();
-        }
+        tankVolume = maxTankVolume;
+        SetGoalPosition(Camera.main.transform.position, Vector2.up);
     }
 }
