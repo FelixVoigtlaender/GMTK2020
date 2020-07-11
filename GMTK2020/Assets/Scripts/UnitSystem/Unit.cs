@@ -15,6 +15,14 @@ public class Unit : Tank
         SetGoalPosition(transform.position, Vector2.zero);
     }
 
+    public void CommandPosition(Vector2 goalPosition, Vector2 goalDir)
+    {
+        if (tankVolume <= 0)
+            return;
+
+        SetGoalPosition(goalPosition, goalDir);
+    }
+
 
     public void SetGoalPosition(Vector2 goalPosition, Vector2 goalDir)
     {

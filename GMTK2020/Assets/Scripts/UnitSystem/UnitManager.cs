@@ -51,7 +51,7 @@ public class UnitManager : MonoBehaviour
         Vector2 dif = (end - start);
         for (int i = 0; i < selectedUnits.Length; i++)
         {
-            selectedUnits[i].SetGoalPosition(start, dif);
+            selectedUnits[i].CommandPosition(start, dif);
         }
         lineRenderer.enabled = false;
     }
