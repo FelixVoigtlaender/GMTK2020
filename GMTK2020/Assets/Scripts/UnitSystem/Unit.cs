@@ -12,7 +12,7 @@ public class Unit : Tank
     private void Awake()
     {
         tankVolume = maxTankVolume;
-        SetGoalPosition(transform.position, Vector2.up);
+        SetGoalPosition(transform.position, Vector2.zero);
     }
 
 
@@ -28,6 +28,7 @@ public class Unit : Tank
 
     public void ExtinguishArea(float thrust)
     {
+        thrust = GetVolume(thrust);
         if(!FireSystem.singleton.ExtinguishTiles(transform.position, radius, thrust))
 		{
 			AddVolume(thrust);
@@ -60,5 +61,7 @@ public class Unit : Tank
 
         Gizmos.DrawWireCube(goalPosition, Vector3.one);
         Gizmos.DrawRay(goalPosition, goalDir);
+
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

@@ -333,7 +333,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 23.6
+  m_fontSize: 24.25
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -565,7 +565,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 5.55
+  m_fontSize: 11
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1765,17 +1765,17 @@ PrefabInstance:
     - target: {fileID: 3082526810148172586, guid: f255576b2aa96144994c91cd1e9c1947,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 78.3
+      value: 78.87
       objectReference: {fileID: 0}
     - target: {fileID: 3082526810148172586, guid: f255576b2aa96144994c91cd1e9c1947,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 43.1
+      value: 43.36
       objectReference: {fileID: 0}
     - target: {fileID: 3082526810148172586, guid: f255576b2aa96144994c91cd1e9c1947,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3082526810148172586, guid: f255576b2aa96144994c91cd1e9c1947,
         type: 3}
@@ -2151,7 +2151,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 6.1
+  m_fontSize: 11.55
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2963,6 +2963,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Firetruck
+      objectReference: {fileID: 0}
+    - target: {fileID: 569754343791022569, guid: 589d79e2ca417c54c936da0a3f929a94,
+        type: 3}
+      propertyPath: radius
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 569754343791022580, guid: 589d79e2ca417c54c936da0a3f929a94,
         type: 3}

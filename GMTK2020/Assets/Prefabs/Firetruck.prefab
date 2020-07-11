@@ -120,7 +120,7 @@ MonoBehaviour:
   volumeTransform: {fileID: 0}
   goalPosition: {x: 0, y: 0}
   goalDir: {x: 0, y: 0}
-  radius: 6
+  radius: 3
   goalTarget: {fileID: 0}
   speed: 5
   rotationalSpeed: 5

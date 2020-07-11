@@ -8,12 +8,15 @@ public class Building : MonoBehaviour
 	Vector2Int pos;
 	bool isDestroyed=false;
 	public Action OnExplosion;
+    public Color destroyedColor = Color.black;
+    SpriteRenderer renderer;
 	// Start is called before the first frame update
 	void Start()
     {
 		pos = TileManager.singleton.World2ImagePos(transform.position);
 		TileManager.singleton.tiles[pos.x, pos.y].isHouse = true;
 		GameManager.singleton.onNewTick += CheckDamage;
+        renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -29,7 +32,12 @@ public class Building : MonoBehaviour
 			isDestroyed = true;
 			if(OnExplosion!=null)
 				OnExplosion();
-		}
+
+            if (renderer)
+                renderer.color = destroyedColor;
+
+
+        }
     }
 
 	

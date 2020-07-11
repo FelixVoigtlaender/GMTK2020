@@ -28,10 +28,11 @@ public class FireTruck : Unit
 		Vector2 position = rigid.position;
 		Vector2 dif = goalPosition - position;
 
-		if (dif.magnitude < 0.5f)
+        if (dif.magnitude < 0.5f)
 		{
 			OnGoalReached?.Invoke();
-			Extinguish();
+
+            Extinguish();
 			return;
 		}
 

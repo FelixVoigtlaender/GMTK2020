@@ -32,8 +32,9 @@ public class FirePlane : Unit
 
         if (dif.magnitude < radius)
         {
+            if (goalDir.magnitude > 0.5f)
+                StartExtinguish();
             OnGoalReached?.Invoke();
-            StartExtinguish();
         }
 
         if (particles.isPlaying)
@@ -54,14 +55,15 @@ public class FirePlane : Unit
 
     public void Extinguish()
     {
-        if (tankVolume > 0)
+        float thrusting = GetVolume(tankThrust * Time.deltaTime);
+        if (thrusting > 0)
         {
-            float thrust = GetVolume(tankThrust * Time.deltaTime);
-            ExtinguishArea(thrust);
+            FireSystem.singleton.ExtinguishTiles(transform.position, radius, thrusting * 100);
         }
-        else
+
+        if (tankVolume <= 0)
         {
-            particles.Stop();
+            //Search for tank
             GoToClosestRefillStation();
         }
 
@@ -69,21 +71,15 @@ public class FirePlane : Unit
 
     public void StartExtinguish()
     {
-
-        //if (!FireSystem.singleton.ExtinguishTiles(transform.position, radius))
-        //{
-        //    SetGoalPosition(goalPosition + goalDir, Vector2.zero);
-        //    return;
-        //}
-
         particles.Play();
-        SetGoalPosition(goalPosition + goalDir, goalDir);
+        SetGoalPosition(goalPosition + goalDir, Vector2.zero);
     }
 
 
     public void GoToClosestRefillStation()
     {
-        SetGoalPosition(Vector2.down * 10, Vector2.up);
+        SetGoalPosition(Vector2.down * 10, Vector2.zero);
+        particles.Stop();
 
         OnGoalReached += Refill;
     }
@@ -92,6 +88,8 @@ public class FirePlane : Unit
     {
         OnGoalReached -= Refill;
         tankVolume = maxTankVolume;
-        SetGoalPosition(Camera.main.transform.position, Vector2.up);
+        particles.Stop();
+
+        SetGoalPosition(Camera.main.transform.position, Vector2.zero);
     }
 }
