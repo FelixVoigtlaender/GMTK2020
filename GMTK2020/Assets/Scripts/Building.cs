@@ -9,7 +9,7 @@ public class Building : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-		pos = TileManager.singleton.World2ImagePos(transform.position);
+		pos = TileManager.World2ImagePos(transform.position);
 		print("Building is at imagepos: "+ pos);
 		TileManager.singleton.tiles[pos.x, pos.y].isHouse = true;
 		GameManager.singleton.onNewTick += CheckDamage;
