@@ -71,12 +71,12 @@ public class FirePlane : Unit
 
         if (!Extinguishable())
         {
-            SetGoalPosition(goalPosition + goalDir.normalized * 3, Vector2.zero);
+            SetGoalPosition(goalPosition + goalDir, Vector2.zero);
             return;
         }
 
         particles.Play();
-        SetGoalPosition(goalPosition + goalDir.normalized * 3, goalDir);
+        SetGoalPosition(goalPosition + goalDir, goalDir);
     }
 
 

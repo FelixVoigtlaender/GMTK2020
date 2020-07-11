@@ -30,6 +30,8 @@ public class Unit : Tank
         Tile[] extinguishableTiles = FireSystem.singleton.GetExtinguishableTiles(transform.position, radius);
         foreach (var item in extinguishableTiles)
         {
+            if (item == null)
+                continue;
             if (item.fireValue > 0)
             {
                 return true;
