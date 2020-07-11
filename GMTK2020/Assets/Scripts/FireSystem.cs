@@ -6,16 +6,23 @@ using UnityEngine.UI;
 
 public class FireSystem : MonoBehaviour
 {
-	[SerializeField] Texture2D map;
+	[SerializeField] Image imageForMap = default;
+
+	[SerializeField] int mapSideLength = 50;
 	[SerializeField] Tile[] fireSeedpoints;
 	[SerializeField] Gradient gradient;
+	[SerializeField] int fireGrowthSpeed = 5;
 
 	Tile[,] tiles;
-	int mapSideLength;
+	Texture2D map;
+
 
 	private void Awake()
 	{
-		mapSideLength = map.width;
+		map = new Texture2D(mapSideLength, mapSideLength);
+		map.filterMode = FilterMode.Point;
+
+		imageForMap.material.mainTexture = map;
 		tiles = new Tile[mapSideLength, mapSideLength];
 
 		//Fill in Seedpoints
@@ -33,7 +40,10 @@ public class FireSystem : MonoBehaviour
 					tiles[x, y] = new Tile(0, x, y);
 			}
 		}
+	}
 
+	private void Start()
+	{
 		GameManager.singleton.onNewTick += UpdateFire;
 	}
 
@@ -51,40 +61,30 @@ public class FireSystem : MonoBehaviour
 		int windDirX = WindSystem.singleton.xDir;
 		int windDirY = WindSystem.singleton.yDir;
 
-		//Copy Tileset to not override values during calculation
-		//(neues Feuer könnte sonst im gleichen Frame direkt ein neues Feuer entfachen)
-		Tile[,] newTileSet = new Tile[tiles.GetLength(0), tiles.GetLength(1)];
-
 		for (int x = 0; x < mapSideLength; x++)
 		{
 			for (int y = 0; y < mapSideLength; y++)
 			{
 				Tile tile = tiles[x, y];
-				//Increment firevalue in cell affected by wind
 				if (tile.fireValue > 0)
 				{
-					if (tile.fireValue != 1&& tile.fireValue < 240)
+					//Dont calculate wind, if its a new fire (fire that started this gameTick)
+					if (tile.fireValue > 1 && tile.fireValue < 240)
 					{
-						//Hacky workaround
-						try
+						int windX = x + windDirX;
+						int windY = y + windDirY;
+						if (windX > 0 && windX < mapSideLength &&
+							windY > 0 && windY < mapSideLength)
 						{
-							tiles[x + windDirX, y + windDirY].fireValue += 1;
-						}
-						catch
-						{
+							//Increment firevalue in cell affected by wind
+							tiles[windX, windY].fireValue += 1;
 						}
 					}
 					//Increment firevalue in this cell
-					tile.fireValue += 10;
+					tile.fireValue += fireGrowthSpeed;
 				}
-
-				
-
-				newTileSet[x, y] = tile;
 			}
 		}
-
-		tiles = newTileSet;
 	}
 
 	private void UpdateImage()

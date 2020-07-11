@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 	public static GameManager singleton;
 	public Action onNewTick;
 	public int tick = 0;
+	
 	// Use this for initialization
 
 	private void Awake()
