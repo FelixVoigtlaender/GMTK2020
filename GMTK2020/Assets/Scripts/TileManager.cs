@@ -64,7 +64,7 @@ public class TileManager : MonoBehaviour
 
 	public static Vector2Int World2ImagePos(Vector3 Worldpos)
 	{
-		Vector2Int imageCoords = new Vector2Int(Mathf.FloorToInt(Worldpos.x* (mapSideLength / 16f)), Mathf.FloorToInt(Worldpos.y* (mapSideLength / 9f)));
+		Vector2Int imageCoords = new Vector2Int(Mathf.FloorToInt(Worldpos.x* (mapSideLength / 100f)), Mathf.FloorToInt(Worldpos.y* (mapSideLength / 100f)));
 		return imageCoords;
 	}
 }
