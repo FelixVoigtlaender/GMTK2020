@@ -2,20 +2,11 @@
 
 public class FireSystem : MonoBehaviour
 {
-
-	
-	[SerializeField] Tile[] fireSeedpoints;
 	[SerializeField] int fireGrowthSpeed = 10;
 	
 
 	private void Start()
 	{
-		//Fill in Seedpoints
-		foreach (Tile fireSeed in fireSeedpoints)
-		{
-			TileManager.singleton.tiles[fireSeed.x, fireSeed.y] = fireSeed;
-			TileManager.singleton.tiles[fireSeed.x, fireSeed.y].changeFireValue(fireGrowthSpeed);
-		}
 		GameManager.singleton.onNewTick += UpdateFire;
 	}
 
@@ -33,7 +24,7 @@ public class FireSystem : MonoBehaviour
 		int windDirX = WindSystem.singleton.xDir;
 		int windDirY = WindSystem.singleton.yDir;
 		int mapSideLength = TileManager.singleton.mapSideLength;
-
+		
 		for (int x = 0; x < mapSideLength; x++)
 		{
 			for (int y = 0; y < mapSideLength; y++)

@@ -5,6 +5,7 @@ public class Tile
 	public int fireValue { get; private set; } = 0;
 	public int x = 0;
 	public int y = 0;
+	public bool isHouse = false;
 
 	public Tile(int fireValue, int x, int y)
 	{
@@ -15,10 +16,12 @@ public class Tile
 
 	public void changeFireValue(int amount)
 	{
-		fireValue += amount;
-		if (fireValue > 255)
+		if (fireValue <255)
+			fireValue += amount;
+
+		if (fireValue == 255&&isHouse)
 		{
-			fireValue = 255;
+			Debug.Log("A HOUSE GOT DESTROYED");
 		}
 	}
 }

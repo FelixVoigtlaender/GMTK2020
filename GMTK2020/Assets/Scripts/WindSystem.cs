@@ -34,7 +34,7 @@ public class WindSystem : MonoBehaviour
 			}
 		}
 		arrow.UpdateWindArrowRotation();
-		print("wind changed: "+xDir+","+yDir);
+		//print("wind changed: "+xDir+","+yDir);
 
 	}
 }
