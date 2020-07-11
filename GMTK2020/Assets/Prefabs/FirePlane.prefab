@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3082526810148172584}
   - component: {fileID: 3082526810148172585}
   - component: {fileID: 3082526810148172590}
-  - component: {fileID: 6395449593777108135}
-  - component: {fileID: 4667510246203308870}
+  - component: {fileID: 1308038516}
+  - component: {fileID: 1308038515}
   m_Layer: 8
   m_Name: FirePlane
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 3082526810148172591}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 78.3, y: 43.1, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 0.9583333}
+  m_Size: {x: 6, y: 6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -144,8 +144,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.9583333}
-    newSize: {x: 1, y: 0.9583333}
+    oldSize: {x: 6, y: 6}
+    newSize: {x: 6, y: 6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -153,7 +153,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.76555556}
   m_EdgeRadius: 0
---- !u!198 &6395449593777108135
+--- !u!198 &1308038516
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,13 +161,13 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3082526810148172591}
   serializedVersion: 6
-  lengthInSec: 0.05
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4757,7 +4757,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &4667510246203308870
+--- !u!199 &1308038515
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0

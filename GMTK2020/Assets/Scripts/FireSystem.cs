@@ -91,7 +91,7 @@ public class FireSystem : MonoBehaviour
 				if (x > 0 && x < xSize - 1 && y > 0 && y < ySize - 1)
 				{
 					float dist = Vector2.SqrMagnitude(center - new Vector2(x, y));
-					if (dist < imageRadius)
+					if (dist < imageRadius*imageRadius)
 					{
 						Tile tile = TileManager.singleton.tiles[x, y];
 						if (tile.fireValue > 0 && tile.fireValue<250)
