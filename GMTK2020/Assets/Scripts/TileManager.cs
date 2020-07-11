@@ -9,7 +9,7 @@ public class TileManager : MonoBehaviour
 	[SerializeField] int xSize = 200;
 	[SerializeField] int ySize = 200;
 	[SerializeField] Image imageForMap = default;
-	[SerializeField] Gradient gradient;
+	[SerializeField] Gradient gradient=default;
 
 	public Texture2D map { get; private set; }
 	public Tile[,] tiles { get; private set; }

@@ -14,19 +14,11 @@ public class TankFillStation : Tank
 
 	public void OnExplosion()
 	{
-		Tile[] extinguishableTiles = FireSystem.singleton.GetExtinguishableTiles(transform.position, 3);
+		 
 		float thrusting = GetVolume(1000);
 		if (thrusting > 0)
 		{
-			foreach (var tile in extinguishableTiles)
-			{
-				if (tile!=null&&tile.fireValue > 0)
-				{
-					tile.changeFireValue(-(int)(thrusting * 100));
-				}
-
-
-			}
+			FireSystem.singleton.ExtinguishTiles(transform.position, 3,thrusting*100);
 		}
 
 	}
