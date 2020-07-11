@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2343487e862481c4a808e78072d8fcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyedColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
 --- !u!198 &6328847235801872539
 ParticleSystem:
   m_ObjectHideFlags: 0
