@@ -6,7 +6,7 @@ public class TileManager : MonoBehaviour
 {
 	public static TileManager singleton;
 
-	public int mapSideLength = 50;
+	public static int mapSideLength = 50;
 	
 	public Texture2D map { get; private set; }
 	public Tile[,] tiles { get; private set; }
@@ -62,7 +62,7 @@ public class TileManager : MonoBehaviour
 		map.Apply();
 	}
 
-	public Vector2Int World2ImagePos(Vector3 Worldpos)
+	public static Vector2Int World2ImagePos(Vector3 Worldpos)
 	{
 		Vector2Int imageCoords = new Vector2Int(Mathf.FloorToInt(Worldpos.x* (mapSideLength / 300f)), Mathf.FloorToInt(Worldpos.y* (mapSideLength / 300f)));
 		return imageCoords;

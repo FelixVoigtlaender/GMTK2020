@@ -23,7 +23,7 @@ public class FireSystem : MonoBehaviour
 		//Cache current winddirection
 		int windDirX = WindSystem.singleton.xDir;
 		int windDirY = WindSystem.singleton.yDir;
-		int mapSideLength = TileManager.singleton.mapSideLength;
+		int mapSideLength = TileManager.mapSideLength;
 		
 		for (int x = 0; x < mapSideLength; x++)
 		{
@@ -60,5 +60,16 @@ public class FireSystem : MonoBehaviour
 		}
 	}
 
-	
+	public void GetExtinguishableTiles(Vector3 worldPos, int radius)
+	{
+		Vector2Int center= TileManager.World2ImagePos(worldPos);
+		
+		for (int x = -radius; x < radius; x++)
+		{
+			for (int y = -radius; y < radius; y++)
+			{
+
+			}
+		}
+	}
 }
