@@ -13,11 +13,15 @@ public class UnitManager : MonoBehaviour
     {
         lineRenderer = GetComponent<LineRenderer>();
 
-        DragManager.OnDrag += OnDrag;
-        DragManager.OnDragEnded += OnDragEnded;
+        DragManager.drags[0].OnDrag += OnSelection;
+        DragManager.drags[0].OnDragEnded += OnSelectionEnded;
+
+        DragManager.drags[1].OnDrag += OnSetDirection;
+        DragManager.drags[1].OnDragEnded += OnSetDirectionEnded;
     }
 
-    public void OnDrag(DragManager.Drag drag)
+
+    public void OnSelection(DragManager.Drag drag)
     {
         Vector2 start = drag.GetStart();
         Vector2 end = drag.GetEnd();
@@ -26,17 +30,29 @@ public class UnitManager : MonoBehaviour
         selectedUnits = CheckBoxForUnits(start, end);
     }
 
-    public void Update()
+    public void OnSelectionEnded(DragManager.Drag drag)
     {
-        if (Input.GetMouseButtonDown(1))
+        lineRenderer.enabled = false;
+    }
+
+
+    public void OnSetDirection(DragManager.Drag drag)
+    {
+        Vector2 start = drag.GetStart();
+        Vector2 end = drag.GetEnd();
+
+        DrawLine(start, end);
+    }
+    public void OnSetDirectionEnded(DragManager.Drag drag)
+    {
+        Vector2 start = drag.GetStart();
+        Vector2 end = drag.GetEnd();
+        Vector2 dif = (end - start);
+        for (int i = 0; i < selectedUnits.Length; i++)
         {
-            print("CLICK");
-            Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            for (int i = 0; i < selectedUnits.Length; i++)
-            {
-                selectedUnits[i].SetGoalPosition(position, Vector2.up);
-            }
+            selectedUnits[i].SetGoalPosition(start, dif.normalized);
         }
+        lineRenderer.enabled = false;
     }
 
     public Unit[] CheckBoxForUnits(Vector2 start, Vector2 end)
@@ -55,11 +71,6 @@ public class UnitManager : MonoBehaviour
         return units.ToArray();
     }
 
-    public void OnDragEnded(DragManager.Drag drag)
-    {
-        lineRenderer.enabled = false;
-    }
-
 
     public void DrawBox(Vector2 start, Vector2 end)
     {
@@ -74,6 +85,15 @@ public class UnitManager : MonoBehaviour
 
         lineRenderer.positionCount = 4;
         Vector3[] positions = new Vector3[] { one, two, three, four };
+        lineRenderer.SetPositions(positions);
+    }
+
+    public void DrawLine(Vector2 start, Vector2 end)
+    {
+        lineRenderer.enabled = true;
+
+        lineRenderer.positionCount = 2;
+        Vector3[] positions = new Vector3[] { start, end};
         lineRenderer.SetPositions(positions);
     }
 }

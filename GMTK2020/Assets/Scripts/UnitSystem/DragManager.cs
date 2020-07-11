@@ -5,70 +5,24 @@ using System;
 
 public class DragManager : MonoBehaviour
 {
-    public bool isDragging = false;
-
-    public Drag drag = null;
-
-    private float dist;
-    private Vector3 offset;
-    private Transform toDrag;
-
-    public static event Action<Drag> OnDragEnded;
-    public static event Action<Drag> OnDragBegan;
-    public static event Action<Drag> OnDrag;
+    public static Drag[] drags;
 
 
-    public void Start()
+    public void Awake()
     {
-        drag = new Drag();
+        drags = new Drag[2];
+        for (int i = 0; i < drags.Length; i++)
+        {
+            drags[i] = new Drag(i);
+        }
     }
 
     void Update()
     {
-
-        //Mouse
-        bool isMouse = Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0);
-        Touch mouseTouch = new Touch();
-        mouseTouch.position = Input.mousePosition;
-        mouseTouch.phase = Input.GetMouseButton(0) ? UnityEngine.TouchPhase.Moved : mouseTouch.phase;
-        mouseTouch.phase = Input.GetMouseButtonDown(0) ? UnityEngine.TouchPhase.Began : mouseTouch.phase;
-        mouseTouch.phase = Input.GetMouseButtonUp(0) ? UnityEngine.TouchPhase.Ended : mouseTouch.phase;
-
-        if (Input.touchCount != 1 && !isMouse && !drag.isDragging)
+        for (int i = 0; i < drags.Length; i++)
         {
-
-            drag.isDragging = false;
-            return;
+            drags[i].UpdateDrag();
         }
-        
-
-
-        Touch touch = isMouse ? mouseTouch : Input.touches[0];
-        if (touch.phase == TouchPhase.Began)
-        {
-            drag.isDragging = true;
-            drag.localStart = drag.localEnd = touch.position;
-            OnDragBegan?.Invoke(drag);
-        }
-        if (drag.isDragging && touch.phase == TouchPhase.Moved)
-        {
-            drag.isDragging = true ;
-            drag.localEnd = touch.position;
-
-            //drag.DrawDebug(Color.white);
-
-            OnDrag?.Invoke(drag);
-        }
-        if (drag.isDragging && (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled))
-        {
-            drag.localEnd = touch.position;
-            drag.isDragging = false;
-
-            //drag.DrawDebug(Color.red);
-
-            OnDragEnded?.Invoke(drag);
-        }
-
     }
 
     public class Drag
@@ -76,6 +30,16 @@ public class DragManager : MonoBehaviour
         public bool isDragging;
         public Vector2 localStart;
         public Vector2 localEnd;
+        public int index = 0;
+
+        public event Action<Drag> OnDragEnded;
+        public event Action<Drag> OnDragBegan;
+        public event Action<Drag> OnDrag;
+
+        public Drag(int index)
+        {
+            this.index = index;
+        }
 
 
         public Vector2 GetStart()
@@ -91,6 +55,52 @@ public class DragManager : MonoBehaviour
         {
 
             Debug.DrawLine(GetStart(), GetEnd(), color);
+        }
+
+        public void UpdateDrag()
+        {
+
+
+            //Mouse
+            bool isMouse = Input.GetMouseButton(index) || Input.GetMouseButtonDown(index) || Input.GetMouseButtonUp(index);
+            Touch mouseTouch = new Touch();
+            mouseTouch.position = Input.mousePosition;
+            mouseTouch.phase = Input.GetMouseButton(index) ? UnityEngine.TouchPhase.Moved : mouseTouch.phase;
+            mouseTouch.phase = Input.GetMouseButtonDown(index) ? UnityEngine.TouchPhase.Began : mouseTouch.phase;
+            mouseTouch.phase = Input.GetMouseButtonUp(index) ? UnityEngine.TouchPhase.Ended : mouseTouch.phase;
+
+            if (Input.touchCount != 1 && !isMouse && !isDragging)
+            {
+
+                isDragging = false;
+                return;
+            }
+
+            Touch touch = isMouse ? mouseTouch : Input.touches[0];
+            if (touch.phase == TouchPhase.Began)
+            {
+                isDragging = true;
+                localStart = localEnd = touch.position;
+                OnDragBegan?.Invoke(this);
+            }
+            if (isDragging && touch.phase == TouchPhase.Moved)
+            {
+                isDragging = true;
+                localEnd = touch.position;
+
+                //drag.DrawDebug(Color.white);
+
+                OnDrag?.Invoke(this);
+            }
+            if (isDragging && (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled))
+            {
+                localEnd = touch.position;
+                isDragging = false;
+
+                //drag.DrawDebug(Color.red);
+
+                OnDragEnded?.Invoke(this);
+            }
         }
     }
 }
