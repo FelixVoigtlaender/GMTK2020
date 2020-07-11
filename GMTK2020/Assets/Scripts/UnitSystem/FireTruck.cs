@@ -6,6 +6,7 @@ using System;
 [RequireComponent(typeof(Rigidbody2D))]
 public class FireTruck : Unit
 {
+	
     public float speed = 5;
     public float rotationalSpeed = 5;
     Rigidbody2D rigid;
@@ -51,8 +52,36 @@ public class FireTruck : Unit
 
     public void Extinguish()
     {
-        float thrusting = GetVolume(tankThrust * Time.deltaTime);
+		Tile[] extinguishableTiles = FireSystem.singleton.GetExtinguishableTiles(transform.position, radius);
+		bool burningTiles = false;
+		foreach (var item in extinguishableTiles)
+		{
+			if (item.fireValue > 0)
+			{
+				burningTiles = true;
+				break;
+			}
+		}
+		if (!burningTiles)
+			return;
 
+		float thrusting = GetVolume(tankThrust * Time.deltaTime);
+		if (thrusting > 0)
+		{
+			
+			
+			
+			foreach (var tile in extinguishableTiles)
+			{
+				if (tile.fireValue > 0&& tile.fireValue <250)
+				{
+					tile.changeFireValue(-(int)(thrusting * 100));
+				}
+				
+				
+			}
+		}
+		
         if (tankVolume <= 0)
         {
             //Search for tank

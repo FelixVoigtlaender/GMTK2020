@@ -6,33 +6,38 @@ public class TileManager : MonoBehaviour
 {
 	public static TileManager singleton;
 
-	public static int mapSideLength = 200;
-	
-	public Texture2D map { get; private set; }
-	public Tile[,] tiles { get; private set; }
-	
+	[SerializeField] int xSize = 200;
+	[SerializeField] int ySize = 200;
 	[SerializeField] Image imageForMap = default;
 	[SerializeField] Gradient gradient;
+
+	public Texture2D map { get; private set; }
+	public Tile[,] tiles { get; private set; }
+
+	float rectTransformWidth;
+	float rectTransformHeight;
 
 	// Use this for initialization
 	void Awake()
 	{
 		singleton = this;
-		map = new Texture2D(mapSideLength, mapSideLength);
+		map = new Texture2D(xSize, ySize);
 		map.filterMode = FilterMode.Point;
 
 		imageForMap.material.mainTexture = map;
-		tiles = new Tile[mapSideLength, mapSideLength];
+		tiles = new Tile[xSize, ySize];
 
-
+		RectTransform transform =imageForMap.transform.parent.GetComponent<RectTransform>();
+		rectTransformWidth = transform.sizeDelta.x;
+		rectTransformHeight = transform.sizeDelta.y;
 
 		//Fill rest of the map excluding already set seedpoints
-		for (int x = 0; x < mapSideLength; x++)
+		for (int x = 0; x < xSize; x++)
 		{
-			for (int y = 0; y < mapSideLength; y++)
+			for (int y = 0; y < ySize; y++)
 			{
 				if (tiles[x, y] == null)
-					tiles[x, y] = new Tile(0,x, y);
+					tiles[x, y] = new Tile(0, x, y);
 			}
 		}
 	}
@@ -52,9 +57,9 @@ public class TileManager : MonoBehaviour
 				}
 				else
 				{
-					 color = gradient.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(-3, 255, tile.fireValue)));
+					color = gradient.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(-3, 255, tile.fireValue)));
 				}
-				
+
 				map.SetPixel(x, y, color);
 			}
 		}
@@ -62,9 +67,14 @@ public class TileManager : MonoBehaviour
 		map.Apply();
 	}
 
-	public static Vector2Int World2ImagePos(Vector3 Worldpos)
+	public Vector2Int World2ImagePos(Vector3 Worldpos)
 	{
-		Vector2Int imageCoords = new Vector2Int(Mathf.FloorToInt(Worldpos.x* (mapSideLength / 100f)), Mathf.FloorToInt(Worldpos.y* (mapSideLength / 100f)));
+		Vector2Int imageCoords = new Vector2Int(Mathf.FloorToInt(Worldpos.x * (xSize / rectTransformWidth)), Mathf.FloorToInt(Worldpos.y * (ySize / rectTransformHeight)));
 		return imageCoords;
+	}
+
+	public float WorldDist2ImageDist(float WorldDist)
+	{
+		return WorldDist * (xSize / rectTransformWidth);
 	}
 }
