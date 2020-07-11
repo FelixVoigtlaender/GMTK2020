@@ -8,10 +8,11 @@ public class WindSystem : MonoBehaviour
 	public int yDir = 1;
 
 	int maxChangeSquared = 9;
+	WindArrow arrow;
 	private void Awake()
 	{
 		singleton = this;
-		
+		arrow = GameObject.FindObjectOfType<WindArrow>();
 	}
 	private void Start()
 	{
@@ -32,7 +33,8 @@ public class WindSystem : MonoBehaviour
 				yDir = newYDir;
 			}
 		}
-		print("wind changed");
+		arrow.UpdateWindArrowRotation();
+		print("wind changed: "+xDir+","+yDir);
 
 	}
 }
