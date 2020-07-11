@@ -15,7 +15,7 @@ public class FirePlane : Unit
 
     public event Action OnGoalReached;
 
-    private void Start()
+	protected override void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
     }

@@ -16,23 +16,25 @@ public class FireSystem : MonoBehaviour
 		xSize = TileManager.singleton.tiles.GetLength(0);
 		ySize = TileManager.singleton.tiles.GetLength(1);
 		GameManager.singleton.onNewTick += UpdateFire;
-		GetExtinguishableTiles(new Vector3(10, 10, 0), 2);
 	}
 
 	void UpdateFire()
 	{
-		CalculateNewFirevalues();
+		if (!CalculateNewFirevalues())//returns false, if no flames left
+		{
+			print("NO FLAMES LEFT! GAME IS OVER");
+		}
 		TileManager.singleton.UpdateImage();
 		print("updated Fires");
 	}
 
 
-	private void CalculateNewFirevalues()
+	private bool CalculateNewFirevalues()
 	{
 		//Cache current winddirection
 		int windDirX = WindSystem.singleton.xDir;
 		int windDirY = WindSystem.singleton.yDir;
-
+		bool fireIsActive = false;
 		for (int x = 0; x < xSize; x++)
 		{
 			for (int y = 0; y < TileManager.singleton.tiles.GetLength(1); y++)
@@ -40,6 +42,7 @@ public class FireSystem : MonoBehaviour
 				Tile tile = TileManager.singleton.tiles[x, y];
 				if (tile.fireValue > 0)
 				{
+					fireIsActive = true;
 					//Dont calculate wind, if its a new fire (fire that started this gameTick)
 					if (tile.fireValue > 70 && tile.fireValue < 240)
 					{
@@ -66,6 +69,7 @@ public class FireSystem : MonoBehaviour
 				}
 			}
 		}
+		return fireIsActive;
 	}
 
 	public Tile[] GetExtinguishableTiles(Vector3 worldPos, float radius)

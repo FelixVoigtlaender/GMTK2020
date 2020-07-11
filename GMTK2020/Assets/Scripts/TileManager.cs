@@ -9,7 +9,7 @@ public class TileManager : MonoBehaviour
 	[SerializeField] int xSize = 200;
 	[SerializeField] int ySize = 200;
 	[SerializeField] Image imageForMap = default;
-	[SerializeField] Gradient gradient;
+	[SerializeField] Gradient gradient=default;
 
 	public Texture2D map { get; private set; }
 	public Tile[,] tiles { get; private set; }
@@ -57,7 +57,7 @@ public class TileManager : MonoBehaviour
 				}
 				else
 				{
-					color = gradient.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(-3, 255, tile.fireValue)));
+					color = gradient.Evaluate(Mathf.Lerp(0, 1, Mathf.InverseLerp(0, 255, tile.fireValue)));
 				}
 
 				map.SetPixel(x, y, color);
