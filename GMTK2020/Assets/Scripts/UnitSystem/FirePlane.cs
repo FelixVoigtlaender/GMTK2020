@@ -18,8 +18,9 @@ public class FirePlane : Unit
 
     ParticleSystem particles;
 
-    private void Start()
+    protected override void Start()
     {
+		base.Start();
         rigid = GetComponent<Rigidbody2D>();
         particles = GetComponent<ParticleSystem>();
     }
@@ -69,11 +70,11 @@ public class FirePlane : Unit
     public void StartExtinguish()
     {
 
-        if (!Extinguishable())
-        {
-            SetGoalPosition(goalPosition + goalDir, Vector2.zero);
-            return;
-        }
+        //if (!FireSystem.singleton.ExtinguishTiles(transform.position, radius))
+        //{
+        //    SetGoalPosition(goalPosition + goalDir, Vector2.zero);
+        //    return;
+        //}
 
         particles.Play();
         SetGoalPosition(goalPosition + goalDir, goalDir);
