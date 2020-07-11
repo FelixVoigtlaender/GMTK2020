@@ -90,6 +90,9 @@ public class FirePlane : Unit
         tankVolume = maxTankVolume;
         particles.Stop();
 
+
         SetGoalPosition(Camera.main.transform.position, Vector2.zero);
     }
+
+    
 }
