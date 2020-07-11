@@ -4,8 +4,8 @@ public class Unit : Tank
 {
     public Vector2 goalPosition;
     public Vector2 goalDir;
-
-    protected Vector2 lastGoalPosition;
+	public float radius = 2;
+	protected Vector2 lastGoalPosition;
 
     public Transform goalTarget;
 

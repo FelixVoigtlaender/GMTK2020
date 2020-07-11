@@ -10,7 +10,7 @@ public class Tank : MonoBehaviour
     [Header("Visualization")]
     public Transform volumeTransform;
 
-    private void Start()
+    protected virtual void Start()
     {
         tankVolume = maxTankVolume;
     }

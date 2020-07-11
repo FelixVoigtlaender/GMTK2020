@@ -18,10 +18,5 @@ public class Tile
 	{
 		if (fireValue <255)
 			fireValue += amount;
-
-		if (fireValue == 255&&isHouse)
-		{
-			Debug.Log("A HOUSE GOT DESTROYED");
-		}
 	}
 }
