@@ -8,10 +8,13 @@ public class MenuManager : MonoBehaviour
 	public GameObject OptionsMenu;
 	public GameObject MainMenu;
 
+
 	private void Awake()
 	{
 		AudioListener.volume = .5f;
-		OpenMenu(MainMenu);
+
+		if(OptionsMenu != null && MainMenu !=null)
+			OpenMenu(MainMenu);
 	}
 	public void OpenMenu(GameObject menuToOpen)
 	{
@@ -28,5 +31,11 @@ public class MenuManager : MonoBehaviour
 	public void ChangeVolume(float newVolume)
 	{
 		AudioListener.volume = newVolume;
+	}
+
+	public void ResumeGame(GameObject introPanel)
+	{
+		introPanel.SetActive(false);
+		GameManager.singleton.isPaused =false;
 	}
 }

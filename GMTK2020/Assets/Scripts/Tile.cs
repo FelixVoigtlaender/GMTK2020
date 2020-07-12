@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 [System.Serializable]
 public class Tile
 {
@@ -12,6 +13,12 @@ public class Tile
 		this.fireValue = fireValue;
 		this.x = x;
 		this.y = y;
+	}
+
+	public void DecreaseFire()
+	{
+		if(fireValue>0 &&fireValue<255)
+			fireValue -= 5;
 	}
 
 	public void changeFireValue(int amount)

@@ -98,7 +98,7 @@ MonoBehaviour:
   maxTankVolume: 500
   tankVolume: 0
   volumeTransform: {fileID: 0}
-  range: 1
+  range: 5
 --- !u!114 &8531692531202810711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2343487e862481c4a808e78072d8fcfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyedColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!199 &4935135615531739393
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -187,7 +188,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0

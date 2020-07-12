@@ -31,12 +31,15 @@ public class Building : MonoBehaviour
 		{
 			print("BUILDING DESTROYED");
             particles.Play();
+			AudioSource audio = GetComponent<AudioSource>();
+			if(audio!=null)
+				audio.Play();
 			isDestroyed = true;
 			if(OnExplosion!=null)
 				OnExplosion();
 
-            if (renderer)
-                renderer.color = destroyedColor;
+            if (spRenderer)
+                spRenderer.color = destroyedColor;
 
 
         }
