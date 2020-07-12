@@ -7,6 +7,8 @@ public class WindSystem : MonoBehaviour
 	public int xDir = 2;
 	public int yDir = -2;
 
+    public int windChangeTime = 10;
+
 	int maxChangeSquared = 9;
 	WindArrow arrow;
 	private void Awake()
@@ -21,7 +23,7 @@ public class WindSystem : MonoBehaviour
 
 	private void changeWindDir()
 	{
-		if (GameManager.singleton.tick % 10 == 0)
+		if (GameManager.singleton.tick % windChangeTime == 0)
 		{
 			int newXDir = xDir;
 			int newYDir = yDir;

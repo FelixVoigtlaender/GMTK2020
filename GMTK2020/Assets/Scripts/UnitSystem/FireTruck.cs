@@ -7,6 +7,7 @@ using System;
 public class FireTruck : Unit
 {
 
+    public Color circleColor = Color.blue;
 	public float speed = 5;
 	public float rotationalSpeed = 5;
 	Rigidbody2D rigid;
@@ -29,20 +30,27 @@ public class FireTruck : Unit
 
         var segments = 30;
         var pointCount = segments + 1;
-        var points = new Vector3[pointCount+2];
-        points[0] = transform.position;
-        points[1] = goalPosition;
+        var points = new Vector3[pointCount];
 
         for (int i = 0; i < pointCount; i++)
         {
             var rad = Mathf.Deg2Rad * (i * 360f / segments);
-            points[i+2] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0);
-            points[i+2] += (Vector3)goalPosition;
+            points[i] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0);
+            points[i] += (Vector3)goalPosition;
         }
-
-
+        
         lineRenderer.positionCount = points.Length;
         lineRenderer.SetPositions(points);
+
+        Gradient colorGradient = new Gradient();
+        GradientColorKey cStart = new GradientColorKey(circleColor,0);
+        GradientColorKey cMid = new GradientColorKey(circleColor, tankVolume/maxTankVolume);
+        GradientColorKey cMid2 = new GradientColorKey(Color.white,0.01f+ tankVolume / maxTankVolume);
+        GradientColorKey cEnd = new GradientColorKey(Color.white, 1);
+        GradientAlphaKey[] alphaKeys = new GradientAlphaKey[] { new GradientAlphaKey(1, 0) };
+        GradientColorKey[] colorKeys = new GradientColorKey[] {cStart,cMid,cMid2,cEnd };
+        colorGradient.SetKeys(colorKeys, alphaKeys);
+        lineRenderer.colorGradient = colorGradient;
     }
 
 	public void Update()
