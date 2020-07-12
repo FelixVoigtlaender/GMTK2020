@@ -100,7 +100,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -396,7 +396,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 2
+      scalar: 4
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1473,7 +1473,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 0.36862746}
+        key0: {r: 0.6509434, g: 0.6509434, b: 0.6509434, a: 0.03529412}
         key1: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 0.2}
         key2: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0}
         key3: {r: 0.8867924, g: 0.8867924, b: 0.8867924, a: 0}
@@ -1490,7 +1490,7 @@ ParticleSystem:
         ctime6: 54990
         ctime7: 54990
         atime0: 0
-        atime1: 37133
+        atime1: 14966
         atime2: 65535
         atime3: 65535
         atime4: 65535
@@ -4818,3 +4818,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2bec24b72268e1438a7582359a8fa5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyedColor: {r: 0, g: 0, b: 0, a: 1}

@@ -45,7 +45,7 @@ public class FireSystem : MonoBehaviour
 				{
 					if(tile.fireValue<250)
 						burningTiles++;
-					if (isGameOver)
+					if (GameManager.singleton.isRaining)
 					{
 						tile.changeFireValue(-fireGrowthSpeed * 5);
 						continue;

@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
+    public bool isRaining = false;
 	public static GameManager singleton;
 	[Header("GameInfo")]
 	public Action onNewTick;
@@ -49,7 +50,11 @@ public class GameManager : MonoBehaviour
 	{
 		InvokeRepeating("newGameTick", 0, tickRate);
 		TileManager.singleton.UpdateImage();
-	}
+
+
+        Invoke("FastForwardToolTip", 30);
+
+    }
 
 	void buildingExploded()
 	{
@@ -57,11 +62,13 @@ public class GameManager : MonoBehaviour
 		if (numBuildings <= 0)
 		{
 			EndGame(false);
-		}
+
+        }
 	}
 
 	private void EndGame(bool isWin)
 	{
+
 		if (gameIsOver)
 			return;
 		gameEndPanel.SetActive(true);
@@ -72,15 +79,16 @@ public class GameManager : MonoBehaviour
 			gameEndText.text = "CONTROL REGAINED";
 			gameEndText.color = Color.green;
 			onStartRain?.Invoke();
-			
-		}
+            scoreText.text = numBuildings + "/" + buildings.Length + " Buildings saved!";
+        }
 		else
 		{
 			print("GAME OVER!");
 			gameEndText.text = "OUT OF CONTROL!";
 			gameEndText.color = Color.red;
+
+            scoreText.text = "All " + buildings.Length + " buildings burnt down";
 		}
-		scoreText.text = numBuildings +"/" + buildings.Length +" Buildings saved!";
 
 	}
 
@@ -104,7 +112,10 @@ public class GameManager : MonoBehaviour
 			rainImage.color = new Color(0, 0, 0, alpha);
 			yield return new WaitForEndOfFrame();
 		}
-	}
+
+        isRaining = true;
+
+    }
 
 
 
@@ -151,4 +162,9 @@ public class GameManager : MonoBehaviour
 	{
 		SceneManager.LoadScene("gameScene");
 	}
+
+    public void FastForwardToolTip()
+    {
+        ToolTipManager.ShowText("Press [Space] to fast forward");
+    }
 }

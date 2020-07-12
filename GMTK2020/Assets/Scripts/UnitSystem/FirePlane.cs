@@ -53,12 +53,12 @@ public class FirePlane : Unit
         Vector2 start = position - dif.normalized * radius;
         Vector2 end = position + dif + dif.normalized * radius;
 
-        Vector2 topLeft = end - right * radius;
-        Vector2 topRight = end + right * radius;
+        Vector2 topLeft = end - right * radius - dif.normalized * radius;
+        Vector2 topRight = end + right * radius - dif.normalized * radius;
         Vector2 bottomLeft = start - right * radius;
         Vector2 bottomRight = start + right * radius;
 
-        Vector3[] points = new Vector3[] { transform.position, goalPosition, end, topRight, bottomRight, bottomLeft, topLeft, end };
+        Vector3[] points = new Vector3[] { goalPosition, bottomLeft, topLeft, end, topRight, bottomRight, goalPosition };
         lineRenderer.positionCount = points.Length;
         lineRenderer.SetPositions(points);
     }
