@@ -20,13 +20,35 @@ public class FirePlane : Unit
 
     protected override void Start()
     {
-		base.Start();
+        base.Start();
         rigid = GetComponent<Rigidbody2D>();
         particles = GetComponent<ParticleSystem>();
     }
 
+
+    public void DrawGoalPosition()
+    {
+        Vector2 position = goalPosition;
+        Vector2 dif = goalDir;
+        Vector2 right = Vector3.Cross(dif.normalized, Vector3.forward).normalized;
+
+        Vector2 start = position - dif.normalized * radius;
+        Vector2 end = position + dif + dif.normalized * radius;
+
+        Vector2 topLeft = end - right * radius;
+        Vector2 topRight = end + right * radius;
+        Vector2 bottomLeft = start - right * radius;
+        Vector2 bottomRight = start + right * radius;
+
+        Vector3[] points = new Vector3[] { transform.position, goalPosition, end, topRight, bottomRight, bottomLeft, topLeft, end };
+        lineRenderer.positionCount = points.Length;
+        lineRenderer.SetPositions(points);
+    }
+
     public void Update()
     {
+        DrawGoalPosition();
+
         Vector2 position = rigid.position;
         Vector2 dif = goalPosition - position;
 
@@ -94,5 +116,5 @@ public class FirePlane : Unit
         SetGoalPosition(Camera.main.transform.position, Vector2.zero);
     }
 
-    
+
 }
