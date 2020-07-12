@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class Unit : Tank
 {
     public Vector2 goalPosition;
@@ -9,10 +10,26 @@ public class Unit : Tank
 
     public Transform goalTarget;
 
-    private void Awake()
+    public LineRenderer lineRenderer;
+
+    protected override void Start()
     {
         tankVolume = maxTankVolume;
-        SetGoalPosition(transform.position, Vector2.zero);
+
+
+        lineRenderer = GetComponent<LineRenderer>();
+
+
+        if (goalPosition.magnitude < 0.1f)
+            SetGoalPosition(transform.position, Vector2.zero);
+    }
+
+    public void CommandPosition(Vector2 goalPosition, Vector2 goalDir)
+    {
+        if (tankVolume <= 0)
+            return;
+
+        SetGoalPosition(goalPosition, goalDir);
     }
 
 
@@ -37,18 +54,22 @@ public class Unit : Tank
 
 
     public TankFillStation FindClosestRefill()
-    {
+    {   
         TankFillStation[] fillStations = FindObjectsOfType(typeof(TankFillStation)) as TankFillStation[];
         if (fillStations.Length == 0)
             return null;
         TankFillStation closestFull = fillStations[Random.Range(0,fillStations.Length)];
         float closestDistance = (closestFull.transform.position - transform.position).magnitude;
+        closestFull = closestFull.IsEmpty() ? null : closestFull;
+        closestDistance = closestFull ? float.MaxValue : closestDistance;
+
         foreach (TankFillStation fillStation in fillStations)
         {
             float distance = (fillStation.transform.position - transform.position).magnitude;
             if (!fillStation.IsEmpty() && distance < closestDistance)
             {
                 closestFull = fillStation;
+                closestDistance = distance;
             }
         }
 

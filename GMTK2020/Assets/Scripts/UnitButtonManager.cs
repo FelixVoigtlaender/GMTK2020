@@ -38,25 +38,33 @@ public class UnitButtonManager : MonoBehaviour
 
 	public void SpawnObject(bool isPlane)
 	{
-		GameObject objTospawn = null;
+        UnitManager um = FindObjectOfType<UnitManager>();
+
+        GameObject objTospawn = null;
 		if (isPlane)
 		{
 			objTospawn = planePrefab;
-			planeButton.interactable = false;
-			planeButton.image.fillAmount = 0;
+            DragManager.drags[1].OnDragEnded += SpawnPlane;
+            um.selectedUnits = new Unit[0];
+            return;
 		}
 		else
 		{
+
+
 			objTospawn = truckPrefab;
 			truckButton.interactable = false;
 			truckButton.image.fillAmount = 0;
 		}
 
+        AbortSpawnPlane(null);
+
+
 		GameObject spawned = Instantiate(objTospawn, new Vector3(10, 10, 0), Quaternion.identity);
 		Unit spawnedUnit = spawned.GetComponent<Unit>();
 		spawnedUnit.SetGoalPosition(new Vector2(50, 50), Vector2.up);
 
-		UnitManager um = FindObjectOfType<UnitManager>();
+		
 		Unit[] currentSelection = um.selectedUnits;
 		Unit[] newSelection = new Unit[currentSelection.Length + 1];
 		for (int i = 0; i < currentSelection.Length; i++)
@@ -66,4 +74,30 @@ public class UnitButtonManager : MonoBehaviour
 		newSelection[newSelection.Length - 1] = spawnedUnit;
 		um.selectedUnits = newSelection;
 	}
+
+
+    public void AbortSpawnPlane(DragManager.Drag drag)
+    {
+        DragManager.drags[1].OnDragEnded -= SpawnPlane;
+    }
+
+    public void SpawnPlane(DragManager.Drag drag)
+    {
+        Vector2 start = drag.GetStart();
+        Vector2 end = drag.GetEnd();
+        Vector2 dif =end - start;
+
+        DragManager.drags[1].OnDragEnded -= SpawnPlane;
+        if ((dif).magnitude < 0.1f)
+        {
+            return;
+        }
+
+
+        planeButton.interactable = false;
+        planeButton.image.fillAmount = 0;
+        GameObject planeObject = Instantiate(planePrefab, start - dif.normalized * 100, Quaternion.identity);
+        planeObject.GetComponent<FirePlane>().SetUp(start,dif);
+
+    }
 }

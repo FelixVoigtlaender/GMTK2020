@@ -10,6 +10,7 @@ public class Building : MonoBehaviour
 	public Action OnExplosion;
     public Color destroyedColor = Color.black;
     SpriteRenderer renderer;
+    ParticleSystem particles;
 	// Start is called before the first frame update
 	void Start()
     {
@@ -17,6 +18,7 @@ public class Building : MonoBehaviour
 		TileManager.singleton.tiles[pos.x, pos.y].isHouse = true;
 		GameManager.singleton.onNewTick += CheckDamage;
         renderer = GetComponent<SpriteRenderer>();
+        particles = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class Building : MonoBehaviour
 		if (fireDamage > 190)
 		{
 			print("BUILDING DESTROYED");
-			GetComponent<ParticleSystem>().Play();
+            particles.Play();
 			isDestroyed = true;
 			if(OnExplosion!=null)
 				OnExplosion();
@@ -40,6 +42,16 @@ public class Building : MonoBehaviour
         }
     }
 
-	
-	
+    public void FixedUpdate()
+    {
+        if (particles)
+        {
+            ParticleSystem.VelocityOverLifetimeModule velOverTime = particles.velocityOverLifetime;
+            velOverTime.x = WindSystem.singleton.xDir/TileManager.singleton.WorldDist2ImageDist(1);
+            velOverTime.y = WindSystem.singleton.yDir/TileManager.singleton.WorldDist2ImageDist(1);
+        }
+    }
+
+
+
 }

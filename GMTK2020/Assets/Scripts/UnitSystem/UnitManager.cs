@@ -18,6 +18,8 @@ public class UnitManager : MonoBehaviour
 
         DragManager.drags[1].OnDrag += OnSetDirection;
         DragManager.drags[1].OnDragEnded += OnSetDirectionEnded;
+
+
     }
 
 
@@ -49,9 +51,16 @@ public class UnitManager : MonoBehaviour
         Vector2 start = drag.GetStart();
         Vector2 end = drag.GetEnd();
         Vector2 dif = (end - start);
+        Vector2 dir = dif.magnitude < 0.1f ? Vector2.up : dif.normalized;
+        Vector2 right = Vector3.Cross(dir.normalized, Vector3.forward).normalized;
+        Vector2 offset = Vector2.zero;
+        if (selectedUnits.Length > 1)
+        {
+            offset = -right.normalized * (selectedUnits[0].radius*2 + selectedUnits.Length - 1f) / selectedUnits.Length;
+        }
         for (int i = 0; i < selectedUnits.Length; i++)
         {
-            selectedUnits[i].SetGoalPosition(start, dif);
+            selectedUnits[i].CommandPosition(start + offset + right * i * selectedUnits[i].radius*2, dif);
         }
         lineRenderer.enabled = false;
     }
