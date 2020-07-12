@@ -28,7 +28,10 @@ public class Building : MonoBehaviour
 		if (fireDamage > 190)
 		{
 			print("BUILDING DESTROYED");
-			GetComponent<ParticleSystem>().Play();
+			GetComponent<ParticleSystem>()?.Play();
+			AudioSource audio = GetComponent<AudioSource>();
+			if(audio!=null)
+				audio.Play();
 			isDestroyed = true;
 			if(OnExplosion!=null)
 				OnExplosion();

@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
 			if (alpha > .25f && !thundered)
 			{
 				rainImage.color = new Color(20, 20, 20, alpha);
+				rainSystem.transform.GetChild(0).GetComponent<AudioSource>().Play();
 				yield return new WaitForSeconds(.2f);
 				thundered = true;
 			}
@@ -127,6 +128,7 @@ public class GameManager : MonoBehaviour
 		if (tick == timeToRain - 8)
 		{
 			rainSystem.Play();
+			rainSystem.GetComponent<AudioSource>().Play();
 		}
 		if (tick >= timeToRain)
 		{

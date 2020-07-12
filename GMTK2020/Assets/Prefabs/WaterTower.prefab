@@ -98,7 +98,7 @@ MonoBehaviour:
   maxTankVolume: 500
   tankVolume: 0
   volumeTransform: {fileID: 0}
-  range: 1
+  range: 5
 --- !u!114 &8531692531202810711
 MonoBehaviour:
   m_ObjectHideFlags: 0

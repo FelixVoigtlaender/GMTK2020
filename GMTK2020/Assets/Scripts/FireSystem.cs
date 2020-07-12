@@ -5,12 +5,14 @@ public class FireSystem : MonoBehaviour
 {
 	public static FireSystem singleton;
 	[SerializeField] int fireGrowthSpeed = 10;
+	[SerializeField] AudioSource fireAudio;
 	int xSize;
 	int ySize;
 
 	private void Awake()
 	{
 		singleton = this;
+		//fireAudio=
 	}
 	private void Start()
 	{
@@ -33,6 +35,7 @@ public class FireSystem : MonoBehaviour
 		int windDirX = WindSystem.singleton.xDir;
 		int windDirY = WindSystem.singleton.yDir;
 		bool isGameOver = GameManager.singleton.gameIsOver;
+		int burningTiles = 0;
 		for (int x = 0; x < xSize; x++)
 		{
 			for (int y = 0; y < TileManager.singleton.tiles.GetLength(1); y++)
@@ -40,11 +43,14 @@ public class FireSystem : MonoBehaviour
 				Tile tile = TileManager.singleton.tiles[x, y];
 				if (tile.fireValue > 0)
 				{
+					if(tile.fireValue<250)
+						burningTiles++;
 					if (isGameOver)
 					{
 						tile.changeFireValue(-fireGrowthSpeed * 5);
 						continue;
 					}
+					
 					//Dont calculate wind, if its a new fire (fire that started this gameTick)
 					if (tile.fireValue > 70 && tile.fireValue < 240)
 					{
@@ -75,6 +81,8 @@ public class FireSystem : MonoBehaviour
 				}
 			}
 		}
+		print(burningTiles * 1.0f / 1500f);
+		fireAudio.volume=burningTiles*1.0f/1500f;
 	}
 
 	public bool ExtinguishTiles(Vector3 worldPos, float radius, float amount)
