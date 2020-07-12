@@ -4,7 +4,7 @@ using System.Collections;
 public class WindSystem : MonoBehaviour
 {
 	public static WindSystem singleton;
-	public int xDir  = 2;
+	public int xDir = 2;
 	public int yDir = -2;
 
 	int maxChangeSquared = 9;
@@ -21,14 +21,21 @@ public class WindSystem : MonoBehaviour
 
 	private void changeWindDir()
 	{
-		if (GameManager.singleton.tick % 10 == 0) {
-			int newXDir = xDir+Random.Range(-1, 2);
-			int newYDir = yDir + Random.Range(-1, 2);
-			if(Mathf.Pow(newXDir, 2)<= maxChangeSquared)
+		if (GameManager.singleton.tick % 10 == 0)
+		{
+			int newXDir = xDir;
+			int newYDir = yDir;
+			while (newXDir <= 0)
+			{
+				newXDir = xDir + Random.Range(-1, 2);
+			}
+			newYDir = yDir + Random.Range(-1, 2);
+
+			if (Mathf.Pow(newXDir, 2) <= maxChangeSquared)
 			{
 				xDir = newXDir;
 			}
-			if(Mathf.Pow(newYDir, 2) <= maxChangeSquared)
+			if (Mathf.Pow(newYDir, 2) <= maxChangeSquared)
 			{
 				yDir = newYDir;
 			}

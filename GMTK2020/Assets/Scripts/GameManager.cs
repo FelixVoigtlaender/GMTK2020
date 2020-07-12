@@ -71,8 +71,6 @@ public class GameManager : MonoBehaviour
 			print("YOU DID IT!!!!!");
 			gameEndText.text = "CONTROL REGAINED";
 			gameEndText.color = Color.green;
-			scoreText.text = "Enough";
-			scoreText.color = Color.green;
 			onStartRain?.Invoke();
 			
 		}
@@ -81,9 +79,9 @@ public class GameManager : MonoBehaviour
 			print("GAME OVER!");
 			gameEndText.text = "OUT OF CONTROL!";
 			gameEndText.color = Color.red;
-			scoreText.text = (tick * tickRate) + " hours";
-			scoreText.color = Color.red;
 		}
+		scoreText.text = numBuildings +"/" + buildings.Length +" Buildings saved!";
+
 	}
 
 

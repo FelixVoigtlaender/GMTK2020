@@ -113,7 +113,7 @@ public class FirePlane : Unit
 
     public void GoToClosestRefillStation()
     {
-        Invoke("Refill", 3);
+        Invoke("Refill", 10);
     }
 
     public void Refill()
