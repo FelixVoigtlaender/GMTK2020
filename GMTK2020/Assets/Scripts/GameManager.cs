@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
 	public TMP_Text tickText;
 	Building[] buildings;
 	int numBuildings = 0;
-
+	public bool isPaused = true;
+	public ParticleSystem rainSystem;
 
 	[Header("Rainsettings")]
 	public int timeToRain = 120;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
 	public TMP_Text gameEndText;
 	public TMP_Text scoreText;
 	public RawImage rainImage;
+	bool thundered = false;
 	// Use this for initialization
 
 	private void Awake()
@@ -43,10 +45,16 @@ public class GameManager : MonoBehaviour
 		tickText.text = "0/" + (timeToRain * tickRate);
 	}
 
+	void Start()
+	{
+		InvokeRepeating("newGameTick", 0, tickRate);
+		TileManager.singleton.UpdateImage();
+	}
+
 	void buildingExploded()
 	{
 		numBuildings--;
-		if (numBuildings / buildings.Length <= 50)
+		if (numBuildings <= 0)
 		{
 			EndGame(false);
 		}
@@ -66,6 +74,7 @@ public class GameManager : MonoBehaviour
 			scoreText.text = "Enough";
 			scoreText.color = Color.green;
 			onStartRain?.Invoke();
+			
 		}
 		else
 		{
@@ -87,20 +96,25 @@ public class GameManager : MonoBehaviour
 		while (alpha < .6f)
 		{
 			alpha = (Time.time - starttime) / foreshadowTime;
+			if (alpha > .25f && !thundered)
+			{
+				rainImage.color = new Color(20, 20, 20, alpha);
+				yield return new WaitForSeconds(.2f);
+				thundered = true;
+			}
 			rainImage.color = new Color(0, 0, 0, alpha);
 			yield return new WaitForEndOfFrame();
 		}
-
 	}
 
-	void Start()
-	{
-		InvokeRepeating("newGameTick", 0, tickRate);
-	}
+
 
 	// Update is called once per frame
 	void newGameTick()
 	{
+
+		if (isPaused)
+			return;
 		onNewTick();
 		tick++;
 		tickText.text = (int)(tick * tickRate) + "/" + (timeToRain * tickRate);
@@ -110,10 +124,15 @@ public class GameManager : MonoBehaviour
 			StartCoroutine("StartRain");
 			startedRain = true;
 		}
+		if (tick == timeToRain - 8)
+		{
+			rainSystem.Play();
+		}
 		if (tick >= timeToRain)
 		{
 			EndGame(true);
 		}
+
 	}
 
 	private void Update()

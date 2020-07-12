@@ -21,7 +21,6 @@ public class FireSystem : MonoBehaviour
 
 	void UpdateFire()
 	{
-
 		CalculateNewFirevalues();
 		print("updated Fires");
 		TileManager.singleton.UpdateImage();
@@ -43,7 +42,7 @@ public class FireSystem : MonoBehaviour
 				{
 					if (isGameOver)
 					{
-						tile.changeFireValue(-fireGrowthSpeed*5);
+						tile.changeFireValue(-fireGrowthSpeed * 5);
 						continue;
 					}
 					//Dont calculate wind, if its a new fire (fire that started this gameTick)
