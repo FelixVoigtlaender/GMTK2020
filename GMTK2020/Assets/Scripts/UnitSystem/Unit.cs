@@ -27,7 +27,10 @@ public class Unit : Tank
     public void CommandPosition(Vector2 goalPosition, Vector2 goalDir)
     {
         if (tankVolume <= 0)
+        {
+            ToolTipManager.ShowText("Need to refill first!");
             return;
+        }
 
         SetGoalPosition(goalPosition, goalDir);
     }
