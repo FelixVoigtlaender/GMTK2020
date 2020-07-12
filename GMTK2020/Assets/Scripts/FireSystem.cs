@@ -43,7 +43,7 @@ public class FireSystem : MonoBehaviour
 				{
 					if (isGameOver)
 					{
-						tile.changeFireValue(-fireGrowthSpeed*3);
+						tile.changeFireValue(-fireGrowthSpeed*5);
 						continue;
 					}
 					//Dont calculate wind, if its a new fire (fire that started this gameTick)

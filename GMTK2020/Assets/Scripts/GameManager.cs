@@ -4,6 +4,7 @@ using System;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,14 +15,15 @@ public class GameManager : MonoBehaviour
 	public int tick { get; private set; } = 0;
 	public float tickRate { get; private set; } = .5f;
 	public bool gameIsOver { get; private set; } = false;
+	public TMP_Text tickText;
 	Building[] buildings;
 	int numBuildings = 0;
+
 
 	[Header("Rainsettings")]
 	public int timeToRain = 120;
 	float foreshadowTime = 10;
 	bool startedRain = false;
-	bool enableLightning = true;
 	public GameObject gameEndPanel;
 	public TMP_Text gameEndText;
 	public TMP_Text scoreText;
@@ -38,15 +40,15 @@ public class GameManager : MonoBehaviour
 			building.OnExplosion += buildingExploded;
 		}
 		rainImage.color = new Color(0, 0, 0, 0);
+		tickText.text = "0/" + (timeToRain * tickRate);
 	}
 
 	void buildingExploded()
 	{
 		numBuildings--;
-		if (numBuildings <= 0)
+		if (numBuildings / buildings.Length <= 50)
 		{
 			EndGame(false);
-
 		}
 	}
 
@@ -54,7 +56,6 @@ public class GameManager : MonoBehaviour
 	{
 		if (gameIsOver)
 			return;
-
 		gameEndPanel.SetActive(true);
 		gameIsOver = true;
 		if (isWin)
@@ -65,8 +66,6 @@ public class GameManager : MonoBehaviour
 			scoreText.text = "Enough";
 			scoreText.color = Color.green;
 			onStartRain?.Invoke();
-
-
 		}
 		else
 		{
@@ -78,29 +77,18 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+
 	IEnumerator StartRain()
 	{
 		//target is 130
 		float starttime = Time.time;
 		float alpha = 0;
 
-		while (starttime-Time.time<1000)
+		while (alpha < .6f)
 		{
-			alpha = Mathf.Lerp(0, .4f, (Time.time - starttime) / foreshadowTime);
-			if (enableLightning)
-			{
-				int value = UnityEngine.Random.Range(0, 101);
-				if (value < 10)
-				{
-					rainImage.color = new Color(20, 20, 20, alpha);
-					yield return new WaitForSeconds(.2f);
-
-				}
-			}
-
+			alpha = (Time.time - starttime) / foreshadowTime;
 			rainImage.color = new Color(0, 0, 0, alpha);
-
-			yield return new WaitForSeconds(.1f);
+			yield return new WaitForEndOfFrame();
 		}
 
 	}
@@ -115,12 +103,14 @@ public class GameManager : MonoBehaviour
 	{
 		onNewTick();
 		tick++;
-		if (tick >= tickRate * foreshadowTime && !startedRain)
+		tickText.text = (int)(tick * tickRate) + "/" + (timeToRain * tickRate);
+
+		if (!startedRain && tick >= timeToRain - foreshadowTime)
 		{
 			StartCoroutine("StartRain");
 			startedRain = true;
 		}
-		if (tick >= tickRate * timeToRain)
+		if (tick >= timeToRain)
 		{
 			EndGame(true);
 		}
