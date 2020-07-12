@@ -60,7 +60,7 @@ public class UnitButtonManager : MonoBehaviour
         AbortSpawnPlane(null);
 
 
-		GameObject spawned = Instantiate(objTospawn, new Vector3(10, 10, 0), Quaternion.identity);
+		GameObject spawned = Instantiate(objTospawn, new Vector3(50, 50, 0), Quaternion.identity);
 		Unit spawnedUnit = spawned.GetComponent<Unit>();
 		spawnedUnit.SetGoalPosition(new Vector2(50, 50), Vector2.up);
 

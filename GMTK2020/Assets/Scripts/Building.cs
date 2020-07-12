@@ -38,8 +38,8 @@ public class Building : MonoBehaviour
 			if(OnExplosion!=null)
 				OnExplosion();
 
-            if (spRenderer)
-                spRenderer.color = destroyedColor;
+            if (renderer)
+                renderer.color = destroyedColor;
 
 
         }
