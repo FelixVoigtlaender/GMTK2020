@@ -15,11 +15,12 @@ public class FireTruck : Unit
 	public int tankThrust = 5;
 
 	public event Action OnGoalReached;
+    public ParticleSystem particles;
 
 	protected override void Start()
 	{
 		rigid = GetComponent<Rigidbody2D>();
-	}
+    }
 
     public void DrawGoalPosition()
     {
@@ -56,7 +57,11 @@ public class FireTruck : Unit
 
             Extinguish();
 			return;
-		}
+        }
+        else
+        {
+            particles.Stop();
+        }
 
 		Vector2 forward = transform.TransformDirection(Vector2.up);
 
@@ -81,8 +86,20 @@ public class FireTruck : Unit
 			if(!FireSystem.singleton.ExtinguishTiles(transform.position, radius, thrusting * 100))
 			{
 				AddVolume(thrusting);
-			}
-		}
+            }
+            else
+            {
+                particles.Play();
+                particles.startSpeed =radius*2* tankVolume/maxTankVolume;
+                Vector3 rotation = particles.transform.rotation.eulerAngles;
+                rotation.z += 30 * UnityEngine.Random.Range(-1,2); 
+                particles.transform.rotation =Quaternion.Euler(rotation);
+            }
+        }
+        else
+        {
+            particles.Stop();
+        }
 
 		if (tankVolume <= 0)
 		{

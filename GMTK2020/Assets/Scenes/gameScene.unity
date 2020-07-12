@@ -333,7 +333,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 24.65
+  m_fontSize: 21.6
   m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 11.95
+  m_fontSize: 4.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2309,7 +2309,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 12.6
+  m_fontSize: 6.1
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2326,7 +2326,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 3
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -2355,7 +2355,7 @@ MonoBehaviour:
     spaceCount: 1
     wordCount: 1
     linkCount: 0
-    lineCount: 1
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -3136,17 +3136,17 @@ PrefabInstance:
     - target: {fileID: 569754343791022580, guid: 589d79e2ca417c54c936da0a3f929a94,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45.3
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 569754343791022580, guid: 589d79e2ca417c54c936da0a3f929a94,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 50
+      value: 57
       objectReference: {fileID: 0}
     - target: {fileID: 569754343791022580, guid: 589d79e2ca417c54c936da0a3f929a94,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 569754343791022580, guid: 589d79e2ca417c54c936da0a3f929a94,
         type: 3}
