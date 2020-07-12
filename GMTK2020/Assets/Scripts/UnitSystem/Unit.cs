@@ -55,6 +55,8 @@ public class Unit : Tank
             return null;
         TankFillStation closestFull = fillStations[Random.Range(0,fillStations.Length)];
         float closestDistance = (closestFull.transform.position - transform.position).magnitude;
+        closestFull = closestFull.IsEmpty() ? null : closestFull;
+        closestDistance = closestFull ? float.MaxValue : closestDistance;
         foreach (TankFillStation fillStation in fillStations)
         {
             float distance = (fillStation.transform.position - transform.position).magnitude;

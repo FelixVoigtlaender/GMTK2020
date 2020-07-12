@@ -52,7 +52,7 @@ public class UnitManager : MonoBehaviour
         Vector2 end = drag.GetEnd();
         Vector2 dif = (end - start);
         Vector2 dir = dif.magnitude < 0.1f ? Vector2.up : dif.normalized;
-        Vector2 right = Vector3.Cross(dif.normalized, Vector3.forward).normalized;
+        Vector2 right = Vector3.Cross(dir.normalized, Vector3.forward).normalized;
         Vector2 offset = Vector2.zero;
         if (selectedUnits.Length > 1)
         {

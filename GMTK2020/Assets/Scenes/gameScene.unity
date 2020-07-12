@@ -3133,11 +3133,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Firetruck
       objectReference: {fileID: 0}
-    - target: {fileID: 569754343791022569, guid: 589d79e2ca417c54c936da0a3f929a94,
-        type: 3}
-      propertyPath: radius
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 569754343791022580, guid: 589d79e2ca417c54c936da0a3f929a94,
         type: 3}
       propertyPath: m_LocalPosition.x

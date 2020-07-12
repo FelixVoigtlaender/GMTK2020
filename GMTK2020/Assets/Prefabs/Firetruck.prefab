@@ -116,12 +116,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33b0cf3eeaae99e48a825b9b8606aad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxTankVolume: 100
+  maxTankVolume: 25
   tankVolume: 0
   volumeTransform: {fileID: 0}
   goalPosition: {x: 0, y: 0}
   goalDir: {x: 0, y: 0}
-  radius: 2
+  radius: 4
   goalTarget: {fileID: 0}
   lineRenderer: {fileID: 0}
   speed: 5
