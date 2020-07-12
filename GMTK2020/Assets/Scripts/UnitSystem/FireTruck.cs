@@ -13,6 +13,8 @@ public class FireTruck : Unit
 	Rigidbody2D rigid;
 	float rotationVel;
 
+    public LineRenderer pathLine;
+
 	public int tankThrust = 5;
 
 	public event Action OnGoalReached;
@@ -22,21 +24,36 @@ public class FireTruck : Unit
 	{
         base.Start();
 		rigid = GetComponent<Rigidbody2D>();
+
+        UnitManager.instance.AddSelectedUnit(this);
     }
 
     public void DrawGoalPosition()
     {
+        if (pathLine)
+        {
+            pathLine.positionCount = 2;
+            pathLine.SetPosition(0, transform.position);
+            pathLine.SetPosition(1, goalPosition);
+        }
+
+
         Vector2 position = goalPosition;
 
         var segments = 30;
         var pointCount = segments + 1;
         var points = new Vector3[pointCount];
 
+        float angleOffset = -Vector2Angle(goalPosition - (Vector2)transform.position, 0);
+
+
+        
+
         for (int i = 0; i < pointCount; i++)
         {
-            var rad = Mathf.Deg2Rad * (i * 360f / segments);
+            var rad = Mathf.Deg2Rad * (angleOffset + i * 360f / segments);
             points[i] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0);
-            points[i] += (Vector3)goalPosition;
+            points[i] += (Vector3)rigid.position;
         }
         
         lineRenderer.positionCount = points.Length;
@@ -55,7 +72,12 @@ public class FireTruck : Unit
 
 	public void Update()
 	{
-        DrawGoalPosition();
+        lineRenderer.enabled = pathLine.enabled = isSelected;
+        if (isSelected)
+        {
+            DrawGoalPosition();
+        }
+
 
 		Vector2 position = rigid.position;
 		Vector2 dif = goalPosition - position;
@@ -76,7 +98,7 @@ public class FireTruck : Unit
 
 
 		var dir = dif;
-		var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
+		var angle = Vector2Angle(dir, - 90);
 
 
 		rigid.rotation = Mathf.SmoothDampAngle(rigid.rotation, angle, ref rotationVel, 0.1f);
@@ -86,6 +108,12 @@ public class FireTruck : Unit
 		position += velocity;
 		rigid.position = position;
 	}
+
+    public static float Vector2Angle(Vector2 dir, float offset)
+    {
+        dir = dir.normalized;
+        return Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + offset;
+    }
 
 	public void Extinguish()
 	{

@@ -16,6 +16,8 @@ public class FirePlane : Unit
 
     public event Action OnGoalReached;
 
+    public LayerMask unitLayer;
+
     ParticleSystem particles;
 
     protected override void Start()
@@ -44,7 +46,7 @@ public class FirePlane : Unit
 
     }
 
-    public void DrawGoalPosition()
+    public static void DrawGoalPosition(LineRenderer lineRenderer, Vector2 goalPosition, Vector2 goalDir,float radius)
     {
         Vector2 position = goalPosition;
         Vector2 dif = goalDir;
@@ -65,7 +67,7 @@ public class FirePlane : Unit
 
     public void Update()
     {
-        DrawGoalPosition();
+        DrawGoalPosition(lineRenderer,goalPosition,goalDir,radius);
 
         Vector2 position = rigid.position;
         Vector2 dif = goalPosition - position;
@@ -94,6 +96,12 @@ public class FirePlane : Unit
         if (thrusting > 0)
         {
             FireSystem.singleton.ExtinguishTiles(transform.position, radius, thrusting * 100);
+
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, radius, goalDir.normalized, unitLayer);
+            foreach (RaycastHit2D hit in hits)
+            {
+                hit.transform.GetComponent<Tank>().AddVolume(1000);
+            }
         }
 
         if (tankVolume <= 0)

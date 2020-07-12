@@ -7,6 +7,7 @@ public class Unit : Tank
     public Vector2 goalDir;
 	public float radius = 2;
 	protected Vector2 lastGoalPosition;
+    public bool isSelected;
 
     public Transform goalTarget;
 
@@ -22,6 +23,11 @@ public class Unit : Tank
 
         if (goalPosition.magnitude < 0.1f)
             SetGoalPosition(transform.position, Vector2.zero);
+    }
+
+    public void Select()
+    {
+        isSelected = true;
     }
 
     public void CommandPosition(Vector2 goalPosition, Vector2 goalDir)

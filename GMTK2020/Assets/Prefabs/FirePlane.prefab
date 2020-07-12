@@ -125,11 +125,15 @@ MonoBehaviour:
   goalPosition: {x: 0, y: 0}
   goalDir: {x: 0, y: 0}
   radius: 5
+  isSelected: 0
   goalTarget: {fileID: 0}
   lineRenderer: {fileID: 0}
   speed: 15
   rotationalSpeed: 5
   tankThrust: 100
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!61 &3082526810148172590
 BoxCollider2D:
   m_ObjectHideFlags: 0
