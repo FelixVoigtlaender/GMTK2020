@@ -26,6 +26,24 @@ public class FirePlane : Unit
     }
 
 
+    public void SetUp(Vector2 goalPos, Vector2 dif)
+    {
+        Vector2 dir = dif.normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg -90;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        base.goalPosition = Vector2.zero;
+        base.goalDir = Vector2.zero;
+
+        base.goalPosition = goalPos;
+        base.goalDir = dif;
+
+        SetGoalPosition(goalPos, dif);
+
+        print("SET UP");
+
+    }
+
     public void DrawGoalPosition()
     {
         Vector2 position = goalPosition;
@@ -52,7 +70,7 @@ public class FirePlane : Unit
         Vector2 position = rigid.position;
         Vector2 dif = goalPosition - position;
 
-        if (dif.magnitude < radius)
+        if (dif.magnitude < 0.5f)
         {
             if (goalDir.magnitude > 0.5f)
                 StartExtinguish();
@@ -63,11 +81,6 @@ public class FirePlane : Unit
             Extinguish();
 
         Vector2 forward = transform.TransformDirection(Vector2.up);
-
-
-        var dir = dif;
-        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90;
-        rigid.rotation = Mathf.SmoothDampAngle(rigid.rotation, angle, ref rotationVel, 0.5f);
 
         float stepSize = speed * Time.deltaTime;
         Vector2 velocity = forward * stepSize;
@@ -100,20 +113,12 @@ public class FirePlane : Unit
 
     public void GoToClosestRefillStation()
     {
-        SetGoalPosition(Vector2.down * 10, Vector2.zero);
-        particles.Stop();
-
-        OnGoalReached += Refill;
+        Invoke("Refill", 3);
     }
 
     public void Refill()
     {
-        OnGoalReached -= Refill;
-        tankVolume = maxTankVolume;
-        particles.Stop();
-
-
-        SetGoalPosition(Camera.main.transform.position, Vector2.zero);
+        Destroy(gameObject);
     }
 
 

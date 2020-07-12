@@ -12,11 +12,16 @@ public class Unit : Tank
 
     public LineRenderer lineRenderer;
 
-    private void Awake()
+    protected override void Start()
     {
         tankVolume = maxTankVolume;
-        SetGoalPosition(transform.position, Vector2.zero);
+
+
         lineRenderer = GetComponent<LineRenderer>();
+
+
+        if (goalPosition.magnitude < 0.1f)
+            SetGoalPosition(transform.position, Vector2.zero);
     }
 
     public void CommandPosition(Vector2 goalPosition, Vector2 goalDir)
@@ -57,12 +62,14 @@ public class Unit : Tank
         float closestDistance = (closestFull.transform.position - transform.position).magnitude;
         closestFull = closestFull.IsEmpty() ? null : closestFull;
         closestDistance = closestFull ? float.MaxValue : closestDistance;
+
         foreach (TankFillStation fillStation in fillStations)
         {
             float distance = (fillStation.transform.position - transform.position).magnitude;
             if (!fillStation.IsEmpty() && distance < closestDistance)
             {
                 closestFull = fillStation;
+                closestDistance = distance;
             }
         }
 

@@ -19,6 +19,7 @@ public class FireTruck : Unit
 
 	protected override void Start()
 	{
+        base.Start();
 		rigid = GetComponent<Rigidbody2D>();
     }
 
