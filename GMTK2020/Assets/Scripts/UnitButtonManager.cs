@@ -14,10 +14,18 @@ public class UnitButtonManager : MonoBehaviour
 	public float truckCooldown = 2;
 
 
-
+	private void Awake()
+	{
+		truckButton.interactable = false;
+		truckButton.image.fillAmount = 0;
+		planeButton.interactable = false;
+		planeButton.image.fillAmount = 0;
+	}
 	// Update is called once per frame
 	void Update()
 	{
+		if (GameManager.singleton.isPaused)
+			return;
 		if (planeButton.interactable == false)
 		{
 			planeButton.image.fillAmount += 1.0f / planeCooldown * Time.deltaTime;
