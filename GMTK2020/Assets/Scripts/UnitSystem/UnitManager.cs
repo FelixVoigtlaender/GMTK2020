@@ -56,8 +56,9 @@ public class UnitManager : MonoBehaviour
         Vector2 offset = Vector2.zero;
         if (selectedUnits.Length > 1)
         {
-            offset = -right.normalized * (selectedUnits[0].radius*2 + selectedUnits.Length - 1f) / selectedUnits.Length;
+            offset = -right.normalized * (selectedUnits[0].radius*selectedUnits.Length) / 2;
         }
+
         for (int i = 0; i < selectedUnits.Length; i++)
         {
             selectedUnits[i].CommandPosition(start + offset + right * i * selectedUnits[i].radius*2, dif);

@@ -46,6 +46,9 @@ public class UnitButtonManager : MonoBehaviour
 			objTospawn = planePrefab;
             DragManager.drags[1].OnDragEnded += SpawnPlane;
             um.selectedUnits = new Unit[0];
+
+            //ToolTip
+            ToolTipManager.ShowText("Right-Click drag to select Plane path");
             return;
 		}
 		else
