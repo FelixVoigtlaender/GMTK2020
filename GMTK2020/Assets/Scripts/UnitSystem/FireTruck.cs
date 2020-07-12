@@ -21,10 +21,32 @@ public class FireTruck : Unit
 		rigid = GetComponent<Rigidbody2D>();
 	}
 
+    public void DrawGoalPosition()
+    {
+        Vector2 position = goalPosition;
 
+        var segments = 30;
+        var pointCount = segments + 1;
+        var points = new Vector3[pointCount+2];
+        points[0] = transform.position;
+        points[1] = goalPosition;
+
+        for (int i = 0; i < pointCount; i++)
+        {
+            var rad = Mathf.Deg2Rad * (i * 360f / segments);
+            points[i+2] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0);
+            points[i+2] += (Vector3)goalPosition;
+        }
+
+
+        lineRenderer.positionCount = points.Length;
+        lineRenderer.SetPositions(points);
+    }
 
 	public void Update()
 	{
+        DrawGoalPosition();
+
 		Vector2 position = rigid.position;
 		Vector2 dif = goalPosition - position;
 

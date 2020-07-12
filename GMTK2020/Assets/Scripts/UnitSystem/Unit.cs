@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class Unit : Tank
 {
     public Vector2 goalPosition;
@@ -9,10 +10,13 @@ public class Unit : Tank
 
     public Transform goalTarget;
 
+    public LineRenderer lineRenderer;
+
     private void Awake()
     {
         tankVolume = maxTankVolume;
         SetGoalPosition(transform.position, Vector2.zero);
+        lineRenderer = GetComponent<LineRenderer>();
     }
 
     public void CommandPosition(Vector2 goalPosition, Vector2 goalDir)
